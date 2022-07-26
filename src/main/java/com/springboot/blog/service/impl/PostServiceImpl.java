@@ -45,9 +45,13 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostResponse getAllPosts(int pageNo,int pageSize,String sortBy) {
+    public PostResponse getAllPosts(int pageNo,int pageSize,String sortBy,String sortDir) {
         // create Pageable instance
-        Pageable pageable = PageRequest.of(pageNo,pageSize, Sort.by(sortBy));
+        // dynamic sorting
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.DESC.name()) ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+        Pageable pageable = PageRequest.of(pageNo,pageSize,sort);
+        //static sorting
         //Pageable pageable = PageRequest.of(pageNo,pageSize, Sort.by(sortBy).descending());
 
         Page<Post> posts = postRepository.findAll(pageable);
