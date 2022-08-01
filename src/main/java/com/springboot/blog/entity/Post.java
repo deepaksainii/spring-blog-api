@@ -1,11 +1,11 @@
 package com.springboot.blog.entity;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-
 @Getter
 @Setter
 @AllArgsConstructor

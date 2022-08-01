@@ -8,6 +8,14 @@ import com.springboot.blog.payload.SignUpDto;
 import com.springboot.blog.repository.RoleRepository;
 import com.springboot.blog.repository.UserRepository;
 import com.springboot.blog.security.JwtTokenProvider;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +33,7 @@ import java.util.Collections;
 
 @RestController
 @RequestMapping("/api/v1/auth")
+@Tag(name = "Auth",description = "Auth API")
 public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -42,6 +51,14 @@ public class AuthController {
     private JwtTokenProvider tokenProvider;
 
     @PostMapping("/signin")
+    @Operation(summary = "Login using username and password",description = "login user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Successful Operation"),
+            @ApiResponse(responseCode = "400",
+                    description = "Failed Operation"),
+
+    })
     public ResponseEntity<JWTAuthResponse> authenticateUser(@RequestBody LoginDto loginDto){
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginDto.getUsernameOrEmail(),
